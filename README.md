@@ -1,4 +1,4 @@
-# CVE RAG — Wazuh Alert Analyzer
+# Security Reports Analyzer with NIST and RAG
 
 An automated security pipeline that enriches Wazuh SIEM alerts with CVE knowledge using Retrieval Augmented Generation (RAG). Every night it pulls the latest alerts from the Wazuh server, finds related vulnerabilities from a local CVE database, and generates a detailed security analysis report using a local LLM — no data leaves the network.
 
@@ -71,17 +71,13 @@ LLM Server (<LLM_SERVER_IP>)
 ## Project Structure
 
 ```
-cveRAG/
+RAG/
 ├── scrapper.py          # Converts raw MITRE CVE JSONs into flat text records
 ├── embed_store.py       # Embeds CVE records and stores them in ChromaDB
-├── analyze.py           # Main analyzer: reads alerts, queries CVEs, generates report
-├── sync_and_analyze.sh  # Cron script: rsync from Wazuh + run analyzer (LLM server)
+└──  analyze.py           # Main analyzer: reads alerts, queries CVEs, generates report
+Scripts/
 ├── export_alerts.sh     # Cron script: export today's alerts to ~/alerts/ (Wazuh server)
-├── cvelistV5/           # Cloned MITRE CVE repository (353,000+ JSON files)
-├── cve_processed.jsonl  # Processed CVE records (one per line)
-├── cve_db/              # ChromaDB persistent storage
-├── alerts/              # Incoming Wazuh alert files
-└── reports/             # Generated analysis reports
+└──  sync_and_analyze.sh  # Cron script: rsync from Wazuh + run analyzer (LLM server)
 ```
 
 ---
